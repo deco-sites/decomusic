@@ -1,9 +1,9 @@
 import Image from "deco-sites/std/components/Image.tsx";
 import { useState } from "preact/hooks";
 
-type Props = {
+export interface Props {
   searchAlbumAPI: (args: string) => void;
-};
+}
 
 export default function Header({ searchAlbumAPI }: Props) {
   const [inputSearch, setInputSearch] = useState("");

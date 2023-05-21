@@ -1,6 +1,7 @@
 import Header from "../components/Header.tsx";
-import MusicCard from "../components/MusicCard.tsx";
+import {MusicCard} from "../components/MusicCard.tsx";
 import Footer from "../components/Footer.tsx";
+import SidebarPlaylist from "../components/SidebarPlaylist.tsx";
 import { useEffect, useState } from "preact/hooks";
 
 export interface PropsRequest {
@@ -11,13 +12,13 @@ export interface PropsRequest {
   trackId?: number;
   artistName?: string;
   collectionName?: string;
-  trackName?: string;
+  trackName: string;
   collectionCensoredName?: string;
   trackCensoredName?: string;
   artistViewUrl?: string;
   collectionViewUrl?: string;
   trackViewUrl?: string;
-  previewUrl?: string;
+  previewUrl: string;
   artworkUrl30?: string;
   artworkUrl60?: string;
   artworkUrl100: string;
@@ -40,6 +41,7 @@ export interface PropsRequest {
 export default function GetStarted() {
   const [threeMusics, setThreeMusics] = useState<PropsRequest[]>([]);
   const [artistSearched, setArtistSearched] = useState("");
+  const [isNavbarHidden, setIsNavbarHidden] = useState<boolean>(true);
 
   const getMusics = async (id?: number) => {
     // const exampleid = 1603411913;
@@ -92,6 +94,10 @@ export default function GetStarted() {
     }
   };
 
+  const toggleHiddenNav = () => {
+    setIsNavbarHidden((prevState) => !prevState);
+  };
+
   useEffect(() => {
     getMusics();
   }, []);
@@ -100,6 +106,9 @@ export default function GetStarted() {
     <div>
       <Header
         searchAlbumAPI={searchAlbumsAPI}
+      />
+      <SidebarPlaylist
+        isNavbarHidden={isNavbarHidden}
       />
       <main class="grid place-items-center min-h-screen bg-gradient-to-t from-blue-200 to-green-500 p-5">
         <div>
@@ -116,6 +125,7 @@ export default function GetStarted() {
                     trackName={eachTrack.trackName}
                     previewUrl={eachTrack.previewUrl}
                     artworkUrl100={eachTrack.artworkUrl100}
+                    setIsNavbarHidden={toggleHiddenNav}
                   />
                 );
               })
